@@ -10,10 +10,14 @@ class case1_sequence extends uvm_sequence #(my_transaction);
    virtual task body();
       if(starting_phase != null) 
          starting_phase.raise_objection(this);
+
+         // 与 case0_sequence 的区别在于，约束条件不同，添加了约束。
       repeat (10) begin
          `uvm_do_with(m_trans, { m_trans.pload.size() == 60;})
       end
       #100;
+
+
       if(starting_phase != null) 
          starting_phase.drop_objection(this);
    endtask

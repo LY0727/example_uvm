@@ -33,7 +33,7 @@ dut my_dut(.clk(clk),
            .rx_dv(input_if.valid),
            .txd(output_if.data),
            .tx_en(output_if.valid));
-
+// clk 和 rst_n 信号直接顶层生成的；   如果需要做 这两个验证相关的验证，其实也应该设置一个agent来做处理
 initial begin
    clk = 0;
    forever begin
@@ -46,6 +46,9 @@ initial begin
    #1000;
    rst_n = 1'b1;
 end
+// 这个框架中定义了两个 mycase；  
+// 每次运行启动函数时， 只会运行一个case；这个通过命令行参数  +UVM_TESTNAME=<test_name>  来指定实际运行哪一个 case；  这样通过脚本一次性运行所有的case；
+// 这里的 test_name 就是 my_case0 或者 my_case1； 
 
 initial begin
    run_test();

@@ -11,6 +11,7 @@ class my_driver extends uvm_driver;
 endclass
 
 task my_driver::main_phase(uvm_phase phase);
+   // objection机制
    phase.raise_objection(this);
    `uvm_info("my_driver", "main_phase is called", UVM_LOW);
    top_tb.rxd <= 8'b0; 
@@ -25,6 +26,7 @@ task my_driver::main_phase(uvm_phase phase);
    end
    @(posedge top_tb.clk);
    top_tb.rx_dv <= 1'b0;
+   // objection机制
    phase.drop_objection(this);
 endtask
 `endif

@@ -14,6 +14,24 @@ vsim -novopt -sv_lib $UVM_DPI_DIR/uvm_dpi -do $WORK_HOME/bin/vsim.do -c top_tb +
 #vsim -novopt -sv_lib $UVM_DPI_DIR/uvm_dpi -do $WORK_HOME/bin/vsim.do -c top_tb +uvm_set_verbosity="uvm_test_top.env.i_agt.drv,_ALL_,UVM_LOW,main_phase" +UVM_TESTNAME=my_case0
 endif
 
+
+# 1. vcs编译命令：
+#     vcs：                             调用 VCS 仿真器进行编译。
+#     +acc：                            开启信号访问，便于波形和调试。
+#     +vpi：                            支持 VPI 接口（用于 DPI/C等扩展）。
+#     -sverilog：                       启用 SystemVerilog 支持。
+#     $UVM_HOME/src/dpi/uvm_dpi.cc：    编译 UVM DPI C文件，支持 UVM DPI 仿真功能。
+#     -CFLAGS -DVCS：                   传递给 C 编译器的宏定义（可选）。
+#     -timescale=1ns/1ps：              设置仿真时间单位。
+#     -f filelist.f：                   指定源文件列表（filelist.f），里面列出所有待编译的 SV/V 文件。
+# 2. 仿真命令：
+#     ./simv：运行编译生成的仿真可执行文件。
+#     +UVM_TESTNAME          = $1：                                                  传递 UVM 测试名称参数，$1 是脚本运行时传入的第一个参数。
+#     +uvm_set_type_override = "my_monitor,new_monitor"：                            示例，设置类型覆盖。
+#     +uvm_set_inst_override = "my_monitor,new_monitor,uvm_test_top.env.o_agt.mon"   示例，设置实例覆盖。
+#     +UVM_TIMEOUT           = "300ns, YES"：                                        示例，设置超时时间。
+#     +UVM_VERBOSITY         = UVM_DEBUG：                                           示例，设置 UVM 日志详细级别。
+
 if ( $SIM_TOOL == "VCS" ) then
 vcs +acc +vpi -sverilog $UVM_HOME/src/dpi/uvm_dpi.cc -CFLAGS -DVCS -timescale=1ns/1ps -f filelist.f 
 ./simv +UVM_TESTNAME=$1

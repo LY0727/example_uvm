@@ -1,8 +1,8 @@
 `ifndef MY_SCOREBOARD__SV
 `define MY_SCOREBOARD__SV
 class my_scoreboard extends uvm_scoreboard;
-   my_transaction  expect_queue[$];
-   uvm_blocking_get_port #(my_transaction)  exp_port;
+   my_transaction  expect_queue[$];   // 用于存储期望的事务，动态数组
+   uvm_blocking_get_port #(my_transaction)  exp_port;   // 命名体现了数据来源，数据性质
    uvm_blocking_get_port #(my_transaction)  act_port;
    `uvm_component_utils(my_scoreboard)
 
